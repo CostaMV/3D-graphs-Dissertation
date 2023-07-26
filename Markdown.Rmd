@@ -1,0 +1,33 @@
+---
+title: "3D graphs"
+author: "Marcela Costa"
+date: "2023-07-26"
+output:
+  pdf_document: default
+  html_document: default
+---
+#Pacotes
+```{r}
+library(plotly)
+library(tidyverse)
+library(openxlsx)
+```
+#Dados
+```{r}
+#planilha
+dados<- read.xlsx("Parametros teste tempo x calibracao.xlsx", sheet = "PCA")
+dados$Tempo<-as.factor(dados$Tempo)
+```
+
+#Graficos
+```{r}
+p<-plot_ly(dados, x = ~KeV, y = ~uA, z = ~Zn_R2, color = dados$Tempo, size = ~Zn_R2,
+        marker = list(symbol= "Circle", sizemode = 'diameter'), sizes = c(5, 25))
+
+z<-p%>% layout(title= "Operational conditions for analysis of Zn in leaf samples via pXRF", 
+            legend = list (title =list(text = "Elapsed time (seconds)")),
+           scene = list(zaxis = list(title = "Zn (R<sup>2</sup>)"),
+                        yaxis = list(title = "µA")))
+z
+```
+
